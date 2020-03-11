@@ -126,7 +126,6 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                     //statusText.setText("Nach aiMove: " + currentPlayer);
 
                 }
-
         }
 
     }
@@ -210,7 +209,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                 if (gameStorage[i][j] == 0) {
                     gameStorage[i][j] = -1;//board[i][j] = ai;  ==> What is ai ? --> ai = "O"
                     //int score = miniMax2(gameStorage); // --> O an nächster Stelle eingesetzt...
-                    int score = miniMax(gameStorage, 0, false); // miniMax
+                    int score = miniMax(gameStorage, 0, true); // miniMax
                     gameStorage[i][j] = 0;//board[i][j] = 0;
 
                     if (score > bestScore){
@@ -234,7 +233,8 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
 
     // miniMax: ============================================================================
     private int miniMax(int[][] gameStorage, int depth, boolean isMaximizing) {
-        if (gameState != "playing") {
+        // if (gameState != "playing") {
+        if (isThereAWinner()) {
             return getScore();
         }
         if (isMaximizing) {
@@ -244,7 +244,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                     // is the field available
                     if (gameStorage[i][j] == 0) {
                         gameStorage[i][j] = 1;
-                        int score = miniMax(gameStorage, depth + 1, true);
+                        int score = miniMax(gameStorage, depth + 1, false);
                         gameStorage[i][j] = 0;
                         bestScore = Math.max(score, bestScore);
                     }
@@ -258,7 +258,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                     // is the field available
                     if (gameStorage[i][j] == 0){
                         gameStorage[i][j] = -1;
-                        int score = miniMax(gameStorage, depth +1, false);
+                        int score = miniMax(gameStorage, depth +1, true);
                         gameStorage[i][j] = 0;
                         bestScore = Math.min(score, bestScore);
                     }
