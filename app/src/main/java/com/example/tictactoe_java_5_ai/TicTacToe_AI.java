@@ -194,7 +194,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
 
 
 
-//    =============================================AI===================
+//    =============================================AI=======================================
 
     private void aiMove() {
         //currentPlayer = "O";
@@ -209,7 +209,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                 if (gameStorage[i][j] == 0) {
                     gameStorage[i][j] = -1;//board[i][j] = ai;  ==> What is ai ? --> ai = "O"
                     //int score = miniMax2(gameStorage); // --> O an nächster Stelle eingesetzt...
-                    int score = miniMax(gameStorage, 0, true); // miniMax
+                    int score = miniMax(gameStorage, 0, true, "X"); // miniMax
                     gameStorage[i][j] = 0;//board[i][j] = 0;
 
                     if (score > bestScore){
@@ -232,10 +232,10 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
 
 
     // miniMax: ============================================================================
-    private int miniMax(int[][] gameStorage, int depth, boolean isMaximizing) {
+    private int miniMax(int[][] gameStorage, int depth, boolean isMaximizing, String playerForMiniMax) {
         // if (gameState != "playing") {
         if (isThereAWinner()) {
-            return getScore();
+            return getScore(playerForMiniMax);
         }
         if (isMaximizing) {
             int bestScore = -99999;
@@ -244,7 +244,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                     // is the field available
                     if (gameStorage[i][j] == 0) {
                         gameStorage[i][j] = 1;
-                        int score = miniMax(gameStorage, depth + 1, false);
+                        int score = miniMax(gameStorage, depth + 1, false, "O");
                         gameStorage[i][j] = 0;
                         bestScore = Math.max(score, bestScore);
                     }
@@ -258,7 +258,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                     // is the field available
                     if (gameStorage[i][j] == 0){
                         gameStorage[i][j] = -1;
-                        int score = miniMax(gameStorage, depth +1, true);
+                        int score = miniMax(gameStorage, depth +1, true, "X");
                         gameStorage[i][j] = 0;
                         bestScore = Math.min(score, bestScore);
                     }
@@ -329,12 +329,12 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
 
 
 // get score...
-    private int getScore() {
+    private int getScore(String winnerStringMiniMax) {
         int scoreForMinMax;
 
-        if (winnerString.equals("X")) {
+        if (winnerStringMiniMax.equals("X")) {
             scoreForMinMax = 1;
-        } else if (winnerString.equals("O")) {
+        } else if (winnerStringMiniMax.equals("O")) {
             scoreForMinMax = -1;
         } else {
             scoreForMinMax = 0;
