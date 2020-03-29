@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v.getId() == R.id.button_tic_ai) {
             startActivity((new Intent(this, TicTacToe_AI.class)));
             // block of code to be executed if the condition1 is false and condition2 is true
+        } else if (v.getId() == R.id.button_tic_ai_win) {
+            startActivity((new Intent(this, TicTacToeAiWin.class)));
+            // block of code to be executed if the condition1 is false and condition2 is true
         } else {
             System.out.println("Error - should not happen !" );
         }

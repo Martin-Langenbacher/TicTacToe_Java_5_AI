@@ -27,7 +27,8 @@
         android:text="Tic Tac Toe (normal)"
         android:onClick="goToTicTacToe"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_id" />
+        app:layout_constraintTop_toBottomOf="@+id/text_id"
+        tools:ignore="OnClick" />
 
     <Button
         android:id="@+id/button_tic_ai"
@@ -39,6 +40,20 @@
         android:text="Tic Tac Toe against Computer"
         android:onClick="goToTicTacToe_ai"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_tic" />
+        app:layout_constraintTop_toBottomOf="@+id/button_tic"
+        tools:ignore="OnClick" />
+
+    <Button
+        android:id="@+id/button_tic_ai_win"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginTop="64dp"
+        android:text="Tic Tac Toe MiniMax"
+        android:onClick="goToTicTacToeAiWin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_tic_ai"
+        tools:ignore="OnClick" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

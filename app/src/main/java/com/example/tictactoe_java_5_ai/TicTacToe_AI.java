@@ -198,7 +198,7 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
 
     private void aiMove() {
         //currentPlayer = "O";
-        int bestScore = -99999;
+        int bestScore = 99999;
         int x = 3;
         int y = 1;
 
@@ -209,13 +209,14 @@ public class TicTacToe_AI extends AppCompatActivity implements View.OnClickListe
                 if (gameStorage[i][j] == 0) {
                     gameStorage[i][j] = -1;//board[i][j] = ai;  ==> What is ai ? --> ai = "O"
                     //int score = miniMax2(gameStorage); // --> O an nächster Stelle eingesetzt...
-                    int score = miniMax(gameStorage, 0, true, "X"); // miniMax
+                    int score = miniMax(gameStorage, 0, false, "O"); // miniMax
                     gameStorage[i][j] = 0;//board[i][j] = 0;
 
-                    if (score > bestScore){
+                    if (score < bestScore){
                         bestScore = score;
                         x = i;
                         y = j;
+                        //bestScore = Math.min(score, bestScore);
                     }
                 }
             }
