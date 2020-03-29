@@ -17,14 +17,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button button = findViewById(R.id.button_tic);
         Button button_ai = findViewById(R.id.button_tic_ai);
+        Button button_ai_win = findViewById(R.id.button_tic_ai_win);
 
 
         button.setOnClickListener(this);
         button_ai.setOnClickListener(this);
+        button_ai_win.setOnClickListener(this);
     }
 
-
-
+    
 
 
     @Override
