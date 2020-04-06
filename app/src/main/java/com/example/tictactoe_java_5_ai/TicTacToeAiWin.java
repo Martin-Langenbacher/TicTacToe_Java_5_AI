@@ -24,9 +24,6 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
 
 
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +57,6 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
 
 
 
-
-
     @SuppressLint("ResourceType")
     @Override
     public void onClick(View v) {
@@ -71,81 +66,84 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
         }
 
         if (gameState.equals("playing") && "".equals(((TextView) v).getText())) {
+            boolean moveOk = true;
             // wir tun nur etwas, wenn 1) das Feld leer ist UND das Spiel auf "playing" steht!
             switch (v.getId()) {
                 case R.id.f0:
                     f11.setText(currentPlayer);
-                    //b.placeAMove(new Point(1,1), Board.PLAYER_X);
+                    moveOk = b.placeAMove(new Point(0,0), Board.PLAYER_X);
                     handleInput(1, 1);
                     break;
 
                 case R.id.f1:
                     f12.setText(currentPlayer);
-                    // b.placeAMove(new Point(1,2), Board.PLAYER_X);
-                    handleInput(1, 2);
+                    b.placeAMove(new Point(0,1), Board.PLAYER_X);
+                    //handleInput(1, 2);
                     break;
 
                 case R.id.f2:
                     f13.setText(currentPlayer);
-                    // b.placeAMove(new Point(1,3), Board.PLAYER_X);
-                    handleInput(1, 3);
+                    b.placeAMove(new Point(0,2), Board.PLAYER_X);
+                    //handleInput(1, 3);
                     break;
 
                 case R.id.f3:
                     f21.setText(currentPlayer);
-                    // b.placeAMove(new Point(2,1), Board.PLAYER_X);
-                    handleInput(2, 1);
+                    b.placeAMove(new Point(1,0), Board.PLAYER_X);
+                    //handleInput(2, 1);
                     break;
 
                 case R.id.f4:
                     f22.setText(currentPlayer);
-                    //b.placeAMove(new Point(2,2), Board.PLAYER_X);
-                    handleInput(2, 2);
+                    b.placeAMove(new Point(1,1), Board.PLAYER_X);
+                    //handleInput(2, 2);
                     break;
 
                 case R.id.f5:
                     f23.setText(currentPlayer);
-                    //b.placeAMove(new Point(2,3), Board.PLAYER_X);
-                    handleInput(2, 3);
+                    b.placeAMove(new Point(1,2), Board.PLAYER_X);
+                    //handleInput(2, 3);
                     break;
 
                 case R.id.f6:
                     f31.setText(currentPlayer);
-                    // b.placeAMove(new Point(3, 1), Board.PLAYER_X);
-                    handleInput(3, 1);
+                    b.placeAMove(new Point(2, 0), Board.PLAYER_X);
+                    //handleInput(3, 1);
                     break;
 
                 case R.id.f7:
                     f32.setText(currentPlayer);
-                    //b.placeAMove(new Point(3,2), Board.PLAYER_X);
-                    handleInput(3, 2);
+                    b.placeAMove(new Point(2,1), Board.PLAYER_X);
+                    //handleInput(3, 2);
                     break;
 
                 case R.id.f8:
                     f33.setText(currentPlayer);
-                    // b.placeAMove(new Point(3  ,3), Board.PLAYER_X);
-                    handleInput(3, 3);
+                    b.placeAMove(new Point(2  ,2), Board.PLAYER_X);
+                    //handleInput(3, 3);
                     break;
             }
-            inCaseOfWinnerDo();
-            // inCaseOfWinnerDo(Board.PLAYER_X);
+            //inCaseOfWinnerDo();
+            inCaseOfWinnerDo(Board.PLAYER_X);
 
             if (gameState.equals("playing")){
                 statusText.setText("Vor MiniMax - aiMove!");
                 currentPlayer = "O";
                 //=========================================================>> Computer-Move:
-                aiMove();
+                //aiMove();
                 // 1) gehe in minimax: Werte: a) Level=0 und b) PLAYER_O = 2
-                //b.minimax4(0, Board.PLAYER_O);
+                b.minimax4(0, Board.PLAYER_O);
+                int a = b.minimax4(0, Board.PLAYER_O);
 
                 // 2) placeAMove: Werte: a) Punkt und b) PLAYER_O = 2
-                //b.placeAMove(b.computerMove, Board.PLAYER_O);
+                b.placeAMove(b.computerMove, Board.PLAYER_O);
+                printPositionOnBoard(b.computerMove);
 
                 // 3) displayBoard)
                 //printPositionOnBoard(b.computerMove);
                 // ==================> Show in Display !!!! ===================================================<<<
-                inCaseOfWinnerDo();
-                // inCaseOfWinnerDo(Board.PLAYER_O);
+                //inCaseOfWinnerDo();
+                inCaseOfWinnerDo(Board.PLAYER_O);
                 currentPlayer = "X";
                 statusText.setText("Spieler " +currentPlayer + " ist am Zug.");
                 //statusText.setText("Nach aiMove: " + currentPlayer);
@@ -153,6 +151,7 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
             }
         }
     }
+
 
 
 
@@ -184,6 +183,7 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
     }
 
 
+
     private void inCaseOfWinnerDo() {
         if (isThereAWinner()){
             statusText.setText("Spieler " +currentPlayer + " hat gewonnen");
@@ -200,7 +200,9 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-      /*
+
+
+
         private void inCaseOfWinnerDo(int player) {
             if (b.hasPlayerWon(player)){
                 statusText.setText("Spieler " +currentPlayer + " hat gewonnen");
@@ -218,7 +220,7 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
                 statusText.setText("Fehler: handle Input!");
             }
         }
-     */
+
 
 
 
@@ -251,7 +253,7 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
 
 
 //    =============================================AI=======================================
-
+/*
     private void aiMove() {
         //currentPlayer = "O";
         int bestScore = 99999;
@@ -333,61 +335,61 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
+*/
 
 //    =============================================AI Positioning===================
 
-    private void printPositionOnBoard(int x, int y) {
-    // private void printPositionOnBoard(Point point) {
+    //private void printPositionOnBoard(int x, int y) {
+    private void printPositionOnBoard(Point point) {
 
         //statusText.setText("x: " +x + "y= " + y);
 
-        // int x = point.x+1;
-        // int y = point.y+1;
+        int x = point.x;
+        int y = point.y;
 
         if (x == 1 && y == 1) {
             f11.setText(currentPlayer);
-            // b.placeAMove(new Point(1  ,1), Board.PLAYER_O);
-            handleInput(1, 1);
+            b.placeAMove(new Point(0  ,0), Board.PLAYER_O);
+            //handleInput(1, 1);
         } else if (x == 1 && y == 2) {
             f12.setText(currentPlayer);
-            //b.placeAMove(new Point(1  ,2), Board.PLAYER_O);
-            handleInput(1, 2);
+            b.placeAMove(new Point(0  ,1), Board.PLAYER_O);
+            //handleInput(1, 2);
 
         } else if (x == 1 && y == 3) {
             f13.setText(currentPlayer);
-            //b.placeAMove(new Point(1  ,3), Board.PLAYER_O);
-            handleInput(1, 3);
+            b.placeAMove(new Point(0  ,2), Board.PLAYER_O);
+            //handleInput(1, 3);
 
         } else if (x == 2 && y == 1) {
             f21.setText(currentPlayer);
-            //b.placeAMove(new Point(2  ,1), Board.PLAYER_O);
-            handleInput(2, 1);
+            b.placeAMove(new Point(1  ,0), Board.PLAYER_O);
+            //handleInput(2, 1);
 
         } else if (x == 2 && y == 2) {
             f22.setText(currentPlayer);
-            //b.placeAMove(new Point(2  ,2), Board.PLAYER_O);
-            handleInput(2, 2);
+            b.placeAMove(new Point(1  ,1), Board.PLAYER_O);
+            //handleInput(2, 2);
 
         } else if (x == 2 && y == 3) {
             f23.setText(currentPlayer);
-            //b.placeAMove(new Point(2  ,3), Board.PLAYER_O);
-            handleInput(2, 3);
+            b.placeAMove(new Point(1  ,2), Board.PLAYER_O);
+            //handleInput(2, 3);
 
         } else if (x == 3 && y == 1) {
             f31.setText(currentPlayer);
-            //b.placeAMove(new Point(3  ,1), Board.PLAYER_O);
-            handleInput(3, 1);
+            b.placeAMove(new Point(2  ,0), Board.PLAYER_O);
+            //handleInput(3, 1);
 
         } else if (x == 3 && y == 2) {
             f32.setText(currentPlayer);
-            //b.placeAMove(new Point(3  ,2), Board.PLAYER_O);
-            handleInput(3, 2);
+            b.placeAMove(new Point(2  ,1), Board.PLAYER_O);
+            //handleInput(3, 2);
 
         } else if (x == 3 && y == 3) {
             f33.setText(currentPlayer);
-            b.placeAMove(new Point(3  ,3), Board.PLAYER_O);
-            handleInput(3, 3);
+            b.placeAMove(new Point(2  ,2), Board.PLAYER_O);
+            //handleInput(3, 3);
 
         } else {
             f33.setText("F");
