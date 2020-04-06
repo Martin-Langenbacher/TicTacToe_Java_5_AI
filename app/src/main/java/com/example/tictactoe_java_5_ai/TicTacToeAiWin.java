@@ -1,17 +1,16 @@
 package com.example.tictactoe_java_5_ai;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,11 +22,9 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
     String winnerString = "";
     Board b = new Board();
 
-    public static final int NO_PLAYER = 0;
-    public static final int PLAYER_X = 1;
-    public static final int PLAYER_O = 2;
-    private int[][] board = new int[3][3];
-    public Point computerMove;
+
+
+
 
 
     @Override
@@ -63,6 +60,8 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
 
 
 
+
+
     @SuppressLint("ResourceType")
     @Override
     public void onClick(View v) {
@@ -76,87 +75,84 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
             switch (v.getId()) {
                 case R.id.f0:
                     f11.setText(currentPlayer);
+                    //b.placeAMove(new Point(1,1), Board.PLAYER_X);
                     handleInput(1, 1);
                     break;
 
                 case R.id.f1:
                     f12.setText(currentPlayer);
+                    // b.placeAMove(new Point(1,2), Board.PLAYER_X);
                     handleInput(1, 2);
-                        /* old code...
-                        if(f12.getText() == ""){
-                        }
-                         */
                     break;
 
                 case R.id.f2:
                     f13.setText(currentPlayer);
+                    // b.placeAMove(new Point(1,3), Board.PLAYER_X);
                     handleInput(1, 3);
                     break;
 
                 case R.id.f3:
                     f21.setText(currentPlayer);
+                    // b.placeAMove(new Point(2,1), Board.PLAYER_X);
                     handleInput(2, 1);
                     break;
 
                 case R.id.f4:
                     f22.setText(currentPlayer);
+                    //b.placeAMove(new Point(2,2), Board.PLAYER_X);
                     handleInput(2, 2);
                     break;
 
                 case R.id.f5:
                     f23.setText(currentPlayer);
+                    //b.placeAMove(new Point(2,3), Board.PLAYER_X);
                     handleInput(2, 3);
                     break;
 
                 case R.id.f6:
                     f31.setText(currentPlayer);
+                    // b.placeAMove(new Point(3, 1), Board.PLAYER_X);
                     handleInput(3, 1);
                     break;
 
                 case R.id.f7:
                     f32.setText(currentPlayer);
+                    //b.placeAMove(new Point(3,2), Board.PLAYER_X);
                     handleInput(3, 2);
                     break;
 
                 case R.id.f8:
                     f33.setText(currentPlayer);
+                    // b.placeAMove(new Point(3  ,3), Board.PLAYER_X);
                     handleInput(3, 3);
                     break;
             }
             inCaseOfWinnerDo();
+            // inCaseOfWinnerDo(Board.PLAYER_X);
 
             if (gameState.equals("playing")){
-                statusText.setText("Vor aiMove!");
+                statusText.setText("Vor MiniMax - aiMove!");
                 currentPlayer = "O";
-//===============================================>> Computer-Move:
-                //aiMove();
-                minimax3(0, PLAYER_O);
-                placeAMove(computerMove, PLAYER_O);
-                printPositionOnBoard(computerMove);
-                // ==================> Show in Display !!!! ===================================================
-                //private void printPositionOnBoard(int x, int y) {
+                //=========================================================>> Computer-Move:
+                aiMove();
+                // 1) gehe in minimax: Werte: a) Level=0 und b) PLAYER_O = 2
+                //b.minimax4(0, Board.PLAYER_O);
 
+                // 2) placeAMove: Werte: a) Punkt und b) PLAYER_O = 2
+                //b.placeAMove(b.computerMove, Board.PLAYER_O);
 
-                /*
-                b.minimax(0, Board.PLAYER_X);
-                System.out.println();
-                System.out.println("Computer choose postion : " + b.computerMove);
-                b.placeAMove(b.computerMove, Board.PLAYER_X);
-                b.displayBoard();
-                */
-//===============================================>> Computer-Move <== ENDE:
+                // 3) displayBoard)
+                //printPositionOnBoard(b.computerMove);
+                // ==================> Show in Display !!!! ===================================================<<<
                 inCaseOfWinnerDo();
+                // inCaseOfWinnerDo(Board.PLAYER_O);
                 currentPlayer = "X";
                 statusText.setText("Spieler " +currentPlayer + " ist am Zug.");
                 //statusText.setText("Nach aiMove: " + currentPlayer);
 
             }
         }
-
     }
-
-
-
 
 
 
@@ -165,111 +161,55 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
 
 
 
-    package tictactoe_game;
-
-import java.util.Random;
-import java.util.Scanner;
-
-public class TicTacToe {
-
-	public static final Random RANDOM = new Random();
-
-	public static void main(String[] args) {
-		Board b = new Board();
-		Scanner scanner = new Scanner(System.in);
-		b.displayBoard();
-		System.out.println("Select turn:\n1. Computer (X) / 2. User (O) : ");
-
-		int choice = scanner.nextInt();
-
-		if (choice == Board.PLAYER_X) {
-			Point p = new Point(RANDOM.nextInt(3), RANDOM.nextInt(3));
-			b.placeAMove(p, Board.PLAYER_X);
-			b.displayBoard();
-		}
-
-		while (!b.isGameOver()) {
-			boolean moveOk = true;
-
-			do {
-				if (!moveOk) {
-					System.out.println("Cell already filled !");
-				}
-
-				System.out.println("Your move : ");
-				Point userMove = new Point(scanner.nextInt(), scanner.nextInt());
-				moveOk = b.placeAMove(userMove, Board.PLAYER_O);
-
-			} while (!moveOk);
-
-			b.displayBoard();
-
-			if (b.isGameOver())
-				break;
-
-			b.minimax(0, Board.PLAYER_X);
-			System.out.println();
-			System.out.println("Computer choose postion : " + b.computerMove);
-
-			b.placeAMove(b.computerMove, Board.PLAYER_X);
-			b.displayBoard();
-
-		}
-
-		if (b.hasPlayerWon(Board.PLAYER_X))
-			System.out.println("You lost !");
-		else if(b.hasPlayerWon(Board.PLAYER_O))
-			System.out.println(" You win !");
-		else
-			System.out.println("Draw !");
-
-	}
-
-}
 
 
 
-
-
-
-
-    */
-
-
-
-
-
-
-
-
-
-
-
+//$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ E N D E ............
+*/
 
 //    =============================================handle Input===================
 
-        private void handleInput(int x, int y) {
+    private void handleInput(int x, int y) {
 
-            // Wert eintragen
-            if (gameStorage[x - 1][y - 1] == 0 && (!allFieldsFull())) {
-                if (currentPlayer.equals("X")) {
-                    gameStorage[x - 1][y - 1] = 1;
-                } else {
-                    gameStorage[x - 1][y - 1] = -1;
-                }
+        // Wert eintragen
+        if (gameStorage[x - 1][y - 1] == 0 && (!allFieldsFull())) {
+            if (currentPlayer.equals("X")) {
+                gameStorage[x - 1][y - 1] = 1;
             } else {
-                statusText.setText("Fehler: handle Input!");
+                gameStorage[x - 1][y - 1] = -1;
             }
+        } else {
+            statusText.setText("Fehler: handle Input!");
         }
+    }
 
 
-        private void inCaseOfWinnerDo() {
-            if (isThereAWinner()){
+    private void inCaseOfWinnerDo() {
+        if (isThereAWinner()){
+            statusText.setText("Spieler " +currentPlayer + " hat gewonnen");
+            gameState = "won";
+            winnerString = currentPlayer;
+            finishGame();
+        } else if (allFieldsFull()){
+            statusText.setText("Unentschieden!");
+            gameState = "tie";
+            winnerString = "tie";
+            finishGame();
+        } else {
+            statusText.setText("Fehler: handle Input!");
+        }
+    }
+
+      /*
+        private void inCaseOfWinnerDo(int player) {
+            if (b.hasPlayerWon(player)){
                 statusText.setText("Spieler " +currentPlayer + " hat gewonnen");
                 gameState = "won";
                 winnerString = currentPlayer;
                 finishGame();
-            } else if (allFieldsFull()){
+
+            // allFieldsFull...
+            } else if (b.getAvailableCells().isEmpty()){
                 statusText.setText("Unentschieden!");
                 gameState = "tie";
                 winnerString = "tie";
@@ -278,6 +218,8 @@ public class TicTacToe {
                 statusText.setText("Fehler: handle Input!");
             }
         }
+     */
+
 
 
 
@@ -285,357 +227,238 @@ public class TicTacToe {
 
 //    =============================================Matrix: End of Game / Felder voll===================
 
-        private boolean allFieldsFull() {
-            return    (Math.abs(gameStorage[0][0]) + Math.abs(gameStorage[0][1]) +
-                    Math.abs(gameStorage[0][2]) + Math.abs(gameStorage[1][0]) +
-                    Math.abs(gameStorage[1][1]) + Math.abs(gameStorage[1][2]) +
-                    Math.abs(gameStorage[2][0]) + Math.abs(gameStorage[2][1]) +
-                    Math.abs(gameStorage[2][2]) == 9);
-        }
+    private boolean allFieldsFull() {
+        return    (Math.abs(gameStorage[0][0]) + Math.abs(gameStorage[0][1]) +
+                Math.abs(gameStorage[0][2]) + Math.abs(gameStorage[1][0]) +
+                Math.abs(gameStorage[1][1]) + Math.abs(gameStorage[1][2]) +
+                Math.abs(gameStorage[2][0]) + Math.abs(gameStorage[2][1]) +
+                Math.abs(gameStorage[2][2]) == 9);
+    }
 
 
 
-        private boolean isThereAWinner() {
-            return    (Math.abs(gameStorage[0][0] + gameStorage[0][1] +gameStorage[0][2]) == 3
-                    || Math.abs(gameStorage[1][0] + gameStorage[1][1] +gameStorage[1][2]) == 3
-                    || Math.abs(gameStorage[2][0] + gameStorage[2][1] +gameStorage[2][2]) == 3
-                    || Math.abs(gameStorage[0][0] + gameStorage[1][0] +gameStorage[2][0]) == 3
-                    || Math.abs(gameStorage[0][1] + gameStorage[1][1] +gameStorage[2][1]) == 3
-                    || Math.abs(gameStorage[0][2] + gameStorage[1][2] +gameStorage[2][2]) == 3
-                    || Math.abs(gameStorage[0][0] + gameStorage[1][1] +gameStorage[2][2]) == 3
-                    || Math.abs(gameStorage[0][2] + gameStorage[1][1] +gameStorage[2][0]) == 3);
-        }
+    private boolean isThereAWinner() {
+        return    (Math.abs(gameStorage[0][0] + gameStorage[0][1] +gameStorage[0][2]) == 3
+                || Math.abs(gameStorage[1][0] + gameStorage[1][1] +gameStorage[1][2]) == 3
+                || Math.abs(gameStorage[2][0] + gameStorage[2][1] +gameStorage[2][2]) == 3
+                || Math.abs(gameStorage[0][0] + gameStorage[1][0] +gameStorage[2][0]) == 3
+                || Math.abs(gameStorage[0][1] + gameStorage[1][1] +gameStorage[2][1]) == 3
+                || Math.abs(gameStorage[0][2] + gameStorage[1][2] +gameStorage[2][2]) == 3
+                || Math.abs(gameStorage[0][0] + gameStorage[1][1] +gameStorage[2][2]) == 3
+                || Math.abs(gameStorage[0][2] + gameStorage[1][1] +gameStorage[2][0]) == 3);
+    }
 
 
 
 //    =============================================AI=======================================
 
-    /*
-        private void aiMove() {
-            //currentPlayer = "O";
-            int bestScore = 99999;
-            int x = 3;
-            int y = 1;
+    private void aiMove() {
+        //currentPlayer = "O";
+        int bestScore = 99999;
+        int x = 3;
+        int y = 1;
 
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    // is the field available?
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                // is the field available?
 
-                    if (gameStorage[i][j] == 0) {
-                        gameStorage[i][j] = -1;//board[i][j] = ai;  ==> What is ai ? --> ai = "O"
-                        //int score = miniMax2(gameStorage); // --> O an nächster Stelle eingesetzt...
-                        int score = miniMax(gameStorage, 0, false, "O"); // miniMax
-                        gameStorage[i][j] = 0;//board[i][j] = 0;
+                if (gameStorage[i][j] == 0) {
+                    gameStorage[i][j] = -1;//board[i][j] = ai;  ==> What is ai ? --> ai = "O"
+                    //int score = miniMax2(gameStorage); // --> O an nächster Stelle eingesetzt...
+                    int score = miniMax(gameStorage, 0, false, "O"); // miniMax
+                    gameStorage[i][j] = 0;//board[i][j] = 0;
 
-                        if (score < bestScore){
-                            bestScore = score;
-                            x = i;
-                            y = j;
-                            //bestScore = Math.min(score, bestScore);
-                        }
+                    if (score < bestScore){
+                        bestScore = score;
+                        x = i;
+                        y = j;
+                        //bestScore = Math.min(score, bestScore);
                     }
                 }
-
             }
-            printPositionOnBoard(x+1, y+1);
-
-            statusText.setText("AI fertig: X-Turn !");
-        }
-
-*/
-
-
-/*
-
-        // miniMax: ============================================================================
-        private int miniMax(int[][] gameStorage, int depth, boolean isMaximizing, String playerForMiniMax) {
-            // if (gameState != "playing") {
-            if (isThereAWinner()) {
-                return getScore(playerForMiniMax);
-            }
-            if (isMaximizing) {
-                int bestScore = -99999;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        // is the field available
-                        if (gameStorage[i][j] == 0) {
-                            gameStorage[i][j] = 1;
-                            int score = miniMax(gameStorage, depth + 1, false, "O");
-                            gameStorage[i][j] = 0;
-                            bestScore = Math.max(score, bestScore);
-                        }
-                    }
-                }
-                return bestScore;
-            } else {
-                int bestScore = 99999;
-                for (int i = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
-                        // is the field available
-                        if (gameStorage[i][j] == 0){
-                            gameStorage[i][j] = -1;
-                            int score = miniMax(gameStorage, depth +1, true, "X");
-                            gameStorage[i][j] = 0;
-                            bestScore = Math.min(score, bestScore);
-                        }
-                    }
-                }
-                return bestScore;
-            }
-        }
-
-
-
-
-        private int miniMax2(int[][] gameStorage) {
-            return 1;
-        }
-
-*/
-
-
-
-        public int minimax3(int depth, int turn) {
-            if (hasPlayerWon(PLAYER_X))
-                return 1;
-            if (hasPlayerWon(PLAYER_O))
-                return -1;
-
-            List<Point> availableCells = getAvailableCells();
-
-            // when no available Cells are there, the game is over, too! --> we return 0.
-            if (availableCells.isEmpty())
-                return 0;
-
-            int min = Integer.MAX_VALUE;
-            int max = Integer.MIN_VALUE;
-            // min is defined MAX_VALUE and max the MIN_VALUE !
-
-
-            for (int i = 0; i < availableCells.size(); i++) {
-                Point point = availableCells.get(i);
-
-//===========================================================================================================
-                // now, we go thourough all available seats to maximize for X and minimize for O
-                if (turn == PLAYER_X) {
-                    placeAMove(point, PLAYER_X);
-                    // now we start the minimay for the other player !!!
-                    int currentScore = minimax3(depth + 1, PLAYER_O);
-                    max = Math.max(currentScore, max);
-
-                    if (depth == 0)
-                        System.out.println("Computer score for possition " + point + " = " + currentScore);
-
-                    // we store the position
-                    if (currentScore >= 0)
-                        if (depth == 0)
-                            computerMove = point;
-
-                    // we put the board in the same situation before the evaluation
-                    if (currentScore == 1) {
-                        board[point.x][point.y] = NO_PLAYER;
-                        break;
-                    }
-
-                    // otherwise, we store the position to play...
-                    if ( i == availableCells.size() - 1 && max < 0)
-                        if (depth == 0)
-                            computerMove = point;
-
-//===========================================================================================================
-                    // other player...
-                }else if (turn == PLAYER_O) {
-                    placeAMove(point, PLAYER_O);
-                    int currentScore = minimax3(depth + 1, PLAYER_X);
-                    min = Math.min(currentScore,  min);
-
-                    if (min == -1) {
-                        board[point.x][point.y] = NO_PLAYER;
-                        break;
-                    }
-
-                }
-                board[point.x][point.y] = NO_PLAYER;
-
-            }
-            return turn == PLAYER_X ? max : min;
-        }
-
-
-
-/*
-
-    public int minimax3(int depth, int turn) {
-        if (hasPlayerWon(PLAYER_X))
-            return 1;
-        if (hasPlayerWon(PLAYER_O))
-            return -1;
-
-        List<Point> availableCells = getAvailableCells();
-
-        // when no available Cells are there, the game is over, too! --> we return 0.
-        if (availableCells.isEmpty())
-            return 0;
-
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
-        // min is defined MAX_VALUE and max the MIN_VALUE !
-
-
-        for (int i = 0; i < availableCells.size(); i++) {
-            Point point = availableCells.get(i);
-
-//===========================================================================================================
-            // now, we go thourough all available seats to maximize for X and minimize for O
-            if (turn == PLAYER_X) {
-                placeAMove(point, PLAYER_X);
-                // now we start the minimay for the other player !!!
-                int currentScore = minimax(depth + 1, PLAYER_O);
-                max = Math.max(currentScore, max);
-
-                if (depth == 0)
-                    System.out.println("Computer score for possition " + point + " = " + currentScore);
-
-                // we store the position
-                if (currentScore >= 0)
-                    if (depth == 0)
-                        computerMove = point;
-
-                // we put the board in the same situation before the evaluation
-                if (currentScore == 1) {
-                    board[point.x][point.y] = NO_PLAYER;
-                    break;
-                }
-
-                // otherwise, we store the position to play...
-                if ( i == availableCells.size() - 1 && max < 0)
-                    if (depth == 0)
-                        computerMove = point;
-
-//===========================================================================================================
-                // other player...
-            }else if (turn == PLAYER_O) {
-                placeAMove(point, PLAYER_O);
-                int currentScore = minimax(depth + 1, PLAYER_X);
-                min = Math.min(currentScore,  min);
-
-                if (min == -1) {
-                    board[point.x][point.y] = NO_PLAYER;
-                    break;
-                }
-
-            }
-            board[point.x][point.y] = NO_PLAYER;
 
         }
-        return turn == PLAYER_X ? max : min;
+        printPositionOnBoard(x+1, y+1);
+
+        statusText.setText("AI fertig: X-Turn !");
     }
 
-*/
 
+
+
+
+
+    // miniMax: ============================================================================
+    private int miniMax(int[][] gameStorage, int depth, boolean isMaximizing, String playerForMiniMax) {
+        // if (gameState != "playing") {
+        if (isThereAWinner()) {
+            return getScore(playerForMiniMax);
+        }
+        if (isMaximizing) {
+            int bestScore = -99999;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    // is the field available
+                    if (gameStorage[i][j] == 0) {
+                        gameStorage[i][j] = 1;
+                        int score = miniMax(gameStorage, depth + 1, false, "O");
+                        gameStorage[i][j] = 0;
+                        bestScore = Math.max(score, bestScore);
+                    }
+                }
+            }
+            return bestScore;
+        } else {
+            int bestScore = 99999;
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    // is the field available
+                    if (gameStorage[i][j] == 0){
+                        gameStorage[i][j] = -1;
+                        int score = miniMax(gameStorage, depth +1, true, "X");
+                        gameStorage[i][j] = 0;
+                        bestScore = Math.min(score, bestScore);
+                    }
+                }
+            }
+            return bestScore;
+        }
+    }
+
+
+
+
+    private int miniMax2(int[][] gameStorage) {
+        return 1;
+    }
 
 
 
 
 //    =============================================AI Positioning===================
 
-        private void printPositionOnBoard(Point point) {
+    private void printPositionOnBoard(int x, int y) {
+    // private void printPositionOnBoard(Point point) {
 
-            //statusText.setText("x: " +x + "y= " + y);
+        //statusText.setText("x: " +x + "y= " + y);
 
-            int x = point.x;
-            int y = point.y;
+        // int x = point.x+1;
+        // int y = point.y+1;
 
-            if (x == 1 && y == 1) {
-                f11.setText(currentPlayer);
-                handleInput(1, 1);
-            } else if (x == 1 && y == 2) {
-                f12.setText(currentPlayer);
-                handleInput(1, 2);
+        if (x == 1 && y == 1) {
+            f11.setText(currentPlayer);
+            // b.placeAMove(new Point(1  ,1), Board.PLAYER_O);
+            handleInput(1, 1);
+        } else if (x == 1 && y == 2) {
+            f12.setText(currentPlayer);
+            //b.placeAMove(new Point(1  ,2), Board.PLAYER_O);
+            handleInput(1, 2);
 
-            } else if (x == 1 && y == 3) {
-                f13.setText(currentPlayer);
-                handleInput(1, 3);
+        } else if (x == 1 && y == 3) {
+            f13.setText(currentPlayer);
+            //b.placeAMove(new Point(1  ,3), Board.PLAYER_O);
+            handleInput(1, 3);
 
-            } else if (x == 2 && y == 1) {
-                f21.setText(currentPlayer);
-                handleInput(2, 1);
+        } else if (x == 2 && y == 1) {
+            f21.setText(currentPlayer);
+            //b.placeAMove(new Point(2  ,1), Board.PLAYER_O);
+            handleInput(2, 1);
 
-            } else if (x == 2 && y == 2) {
-                f22.setText(currentPlayer);
-                handleInput(2, 2);
+        } else if (x == 2 && y == 2) {
+            f22.setText(currentPlayer);
+            //b.placeAMove(new Point(2  ,2), Board.PLAYER_O);
+            handleInput(2, 2);
 
-            } else if (x == 2 && y == 3) {
-                f23.setText(currentPlayer);
-                handleInput(2, 3);
+        } else if (x == 2 && y == 3) {
+            f23.setText(currentPlayer);
+            //b.placeAMove(new Point(2  ,3), Board.PLAYER_O);
+            handleInput(2, 3);
 
-            } else if (x == 3 && y == 1) {
-                f31.setText(currentPlayer);
-                handleInput(3, 1);
+        } else if (x == 3 && y == 1) {
+            f31.setText(currentPlayer);
+            //b.placeAMove(new Point(3  ,1), Board.PLAYER_O);
+            handleInput(3, 1);
 
-            } else if (x == 3 && y == 2) {
-                f32.setText(currentPlayer);
-                handleInput(3, 2);
+        } else if (x == 3 && y == 2) {
+            f32.setText(currentPlayer);
+            //b.placeAMove(new Point(3  ,2), Board.PLAYER_O);
+            handleInput(3, 2);
 
-            } else if (x == 3 && y == 3) {
-                f33.setText(currentPlayer);
-                handleInput(3, 3);
+        } else if (x == 3 && y == 3) {
+            f33.setText(currentPlayer);
+            b.placeAMove(new Point(3  ,3), Board.PLAYER_O);
+            handleInput(3, 3);
 
-            } else {
-                f33.setText("F");
-            }
-
+        } else {
+            f33.setText("F");
         }
+    }
 
 
 
 
-        // get score...
-        private int getScore(String winnerStringMiniMax) {
-            int scoreForMinMax;
 
-            if (winnerStringMiniMax.equals("X")) {
-                scoreForMinMax = 1;
-            } else if (winnerStringMiniMax.equals("O")) {
-                scoreForMinMax = -1;
-            } else {
-                scoreForMinMax = 0;
-            }
-            return scoreForMinMax;
+
+
+
+
+
+
+
+
+    // get score...
+    private int getScore(String winnerStringMiniMax) {
+        int scoreForMinMax;
+
+        if (winnerStringMiniMax.equals("X")) {
+            scoreForMinMax = 1;
+        } else if (winnerStringMiniMax.equals("O")) {
+            scoreForMinMax = -1;
+        } else {
+            scoreForMinMax = 0;
         }
-
+        return scoreForMinMax;
+    }
 
 
 
 // Game is finished !
 
-        private void finishGame() {
-            if (currentPlayer.equals("O")){
-                Toast.makeText(getApplicationContext(), "O hat gewonnen: Neues Spiel?", Toast.LENGTH_LONG).show();
-            } else if (gameState.equals("won")) {
-                Toast.makeText(getApplicationContext(), "X hat gewonnen! Neues Spiel?", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "Unentschieden! Neues Spiel?", Toast.LENGTH_LONG).show();
-            }
-
-
-            // slow down... >>> =============================================slow down at the END===================
-            // mit anonymer Klasse...
-            final Handler handler = new Handler();
-
-            final com.example.tictactoe_java_5_ai.TicTacToeAiWin ticTacToeAiWin = this;
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    // Do something after 5s = 5000ms
-                    Intent intent = new Intent (ticTacToeAiWin, MainActivity.class);
-                    startActivity(intent);
-                    ticTacToeAiWin.finish();
-
-                }
-            }, 3000);
+    private void finishGame() {
+        if (currentPlayer.equals("O")){
+            Toast.makeText(getApplicationContext(), "O hat gewonnen: Neues Spiel?", Toast.LENGTH_LONG).show();
+        } else if (gameState.equals("won")) {
+            Toast.makeText(getApplicationContext(), "X hat gewonnen! Neues Spiel?", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Unentschieden! Neues Spiel?", Toast.LENGTH_LONG).show();
         }
+
+
+        // slow down... >>> =============================================slow down at the END===================
+        // mit anonymer Klasse...
+        final Handler handler = new Handler();
+
+        final TicTacToeAiWin ticTacToeAiWin = this;
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                Intent intent = new Intent (ticTacToeAiWin, MainActivity.class);
+                startActivity(intent);
+                ticTacToeAiWin.finish();
+
+            }
+        }, 3000);
+    }
+
+}
+
+
+
+
+
+
 
 
 
@@ -661,19 +484,34 @@ public class TicTacToe {
 
 //=========================================================================================================================
 
-    public boolean placeAMove(Point point, int player) {
-        if(board[point.x][point.y] != NO_PLAYER)
-            return false;
-
-        board[point.x][point.y] = player;
-        return true;
-    }
 
 
 
 
+/*
+
+        // get score...
+        private int getScore(String winnerStringMiniMax) {
+            int scoreForMinMax;
+
+            if (winnerStringMiniMax.equals("X")) {
+                scoreForMinMax = 1;
+            } else if (winnerStringMiniMax.equals("O")) {
+                scoreForMinMax = -1;
+            } else {
+                scoreForMinMax = 0;
+            }
+            return scoreForMinMax;
+        }
+
+*/
 
 
+
+
+
+
+/*
 
     public boolean isGameOver() {
         return hasPlayerWon(PLAYER_X) || hasPlayerWon(PLAYER_O) || getAvailableCells().isEmpty();
@@ -681,6 +519,9 @@ public class TicTacToe {
 
 
 
+
+
+    // player can be either 1(X) or 2(O)...
     public boolean hasPlayerWon(int player) {
         if ((board[0][0] == board[1][1] && board[0][0] == board[2][2] && board[0][0] == player)
                 ||
@@ -700,26 +541,4 @@ public class TicTacToe {
         return false;
     }
 
-
-
-    public List<Point> getAvailableCells(){
-        List<Point> availableCells = new ArrayList<>();
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i][j] == NO_PLAYER) {
-                    availableCells.add(new Point(i,j));
-                }
-            }
-        }
-
-        return availableCells;
-    }
-
-
-
-
-
-
-
-}
+*/

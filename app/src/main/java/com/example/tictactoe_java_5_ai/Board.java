@@ -63,7 +63,7 @@ public class Board {
     }
 
 
-
+/*
     public void displayBoard() {
         System.out.println();
 
@@ -83,9 +83,11 @@ public class Board {
 
         System.out.println();
     }
+    */
 
 
-    public int minimax3(int depth, int turn) {
+
+    public int minimax4(int depth, int turn) {
         if (hasPlayerWon(PLAYER_X))
             return 1;
         if (hasPlayerWon(PLAYER_O))
@@ -110,7 +112,7 @@ public class Board {
             if (turn == PLAYER_X) {
                 placeAMove(point, PLAYER_X);
                 // now we start the minimay for the other player !!!
-                int currentScore = minimax3(depth + 1, PLAYER_O);
+                int currentScore = minimax4(depth + 1, PLAYER_O);
                 max = Math.max(currentScore, max);
 
                 if (depth == 0)
@@ -136,7 +138,7 @@ public class Board {
                 // other player...
             }else if (turn == PLAYER_O) {
                 placeAMove(point, PLAYER_O);
-                int currentScore = minimax3(depth + 1, PLAYER_X);
+                int currentScore = minimax4(depth + 1, PLAYER_X);
                 min = Math.min(currentScore,  min);
 
                 if (min == -1) {
