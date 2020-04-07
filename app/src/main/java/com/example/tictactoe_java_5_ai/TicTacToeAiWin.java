@@ -347,46 +347,46 @@ public class TicTacToeAiWin extends AppCompatActivity implements View.OnClickLis
         int x = point.x;
         int y = point.y;
 
-        if (x == 1 && y == 1) {
+        if (x == 0 && y == 0) {
             f11.setText(currentPlayer);
             b.placeAMove(new Point(0  ,0), Board.PLAYER_O);
             //handleInput(1, 1);
-        } else if (x == 1 && y == 2) {
+        } else if (x == 0 && y == 1) {
             f12.setText(currentPlayer);
             b.placeAMove(new Point(0  ,1), Board.PLAYER_O);
             //handleInput(1, 2);
 
-        } else if (x == 1 && y == 3) {
+        } else if (x == 0 && y == 2) {
             f13.setText(currentPlayer);
             b.placeAMove(new Point(0  ,2), Board.PLAYER_O);
             //handleInput(1, 3);
 
-        } else if (x == 2 && y == 1) {
+        } else if (x == 1 && y == 0) {
             f21.setText(currentPlayer);
             b.placeAMove(new Point(1  ,0), Board.PLAYER_O);
             //handleInput(2, 1);
 
-        } else if (x == 2 && y == 2) {
+        } else if (x == 1 && y == 1) {
             f22.setText(currentPlayer);
             b.placeAMove(new Point(1  ,1), Board.PLAYER_O);
             //handleInput(2, 2);
 
-        } else if (x == 2 && y == 3) {
+        } else if (x == 1 && y == 2) {
             f23.setText(currentPlayer);
             b.placeAMove(new Point(1  ,2), Board.PLAYER_O);
             //handleInput(2, 3);
 
-        } else if (x == 3 && y == 1) {
+        } else if (x == 2 && y == 0) {
             f31.setText(currentPlayer);
             b.placeAMove(new Point(2  ,0), Board.PLAYER_O);
             //handleInput(3, 1);
 
-        } else if (x == 3 && y == 2) {
+        } else if (x == 2 && y == 1) {
             f32.setText(currentPlayer);
             b.placeAMove(new Point(2  ,1), Board.PLAYER_O);
             //handleInput(3, 2);
 
-        } else if (x == 3 && y == 3) {
+        } else if (x == 2 && y == 2) {
             f33.setText(currentPlayer);
             b.placeAMove(new Point(2  ,2), Board.PLAYER_O);
             //handleInput(3, 3);

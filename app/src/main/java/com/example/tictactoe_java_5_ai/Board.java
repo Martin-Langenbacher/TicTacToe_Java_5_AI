@@ -6,8 +6,8 @@ import java.util.List;
 public class Board {
 
     public static final int NO_PLAYER = 0;
-    public static final int PLAYER_X = 1;
-    public static final int PLAYER_O = 2;
+    public static final int PLAYER_X = 2;
+    public static final int PLAYER_O = 1;
     private int[][] board = new int[3][3];
     public Point computerMove;
 
@@ -88,9 +88,9 @@ public class Board {
 
 
     public int minimax4(int depth, int turn) {
-        if (hasPlayerWon(PLAYER_X))
-            return 1;
         if (hasPlayerWon(PLAYER_O))
+            return 1;
+        if (hasPlayerWon(PLAYER_X))
             return -1;
 
         List<Point> availableCells = getAvailableCells();
@@ -109,10 +109,10 @@ public class Board {
 
 //===========================================================================================================
             // now, we go thourough all available seats to maximize for X and minimize for O
-            if (turn == PLAYER_X) {
-                placeAMove(point, PLAYER_X);
+            if (turn == PLAYER_O) {
+                placeAMove(point, PLAYER_O);
                 // now we start the minimay for the other player !!!
-                int currentScore = minimax4(depth + 1, PLAYER_O);
+                int currentScore = minimax4(depth + 1, PLAYER_X);
                 max = Math.max(currentScore, max);
 
                 if (depth == 0)
@@ -136,9 +136,9 @@ public class Board {
 
 //===========================================================================================================
                 // other player...
-            }else if (turn == PLAYER_O) {
-                placeAMove(point, PLAYER_O);
-                int currentScore = minimax4(depth + 1, PLAYER_X);
+            }else if (turn == PLAYER_X) {
+                placeAMove(point, PLAYER_X);
+                int currentScore = minimax4(depth + 1, PLAYER_O);
                 min = Math.min(currentScore,  min);
 
                 if (min == -1) {
@@ -150,7 +150,7 @@ public class Board {
             board[point.x][point.y] = NO_PLAYER;
 
         }
-        return turn == PLAYER_X ? max : min;
+        return turn == PLAYER_O ? max : min;
     }
 
 }
